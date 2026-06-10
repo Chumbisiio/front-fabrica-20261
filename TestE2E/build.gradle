@@ -2,6 +2,9 @@ buildscript {
     repositories {
         mavenCentral()
     }
+    dependencies {
+        classpath 'net.serenity-bdd:serenity-gradle-plugin:2.4.34'
+    }
 }
 
 plugins {
@@ -11,7 +14,9 @@ plugins {
     id 'idea'
 }
 
-group 'co.edu.udea.certificacion.e2e'
+apply plugin: 'net.serenity-bdd.aggregator'
+
+group 'co.edu.udea.certificacion.taller.moduloprueba'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -38,6 +43,7 @@ dependencies {
     implementation "net.serenity-bdd:serenity-cucumber:$rootProject.ext.serenityCucumberVersion"
     implementation 'org.slf4j:slf4j-simple:2.0.5'
     implementation "net.serenity-bdd:serenity-screenplay-webdriver:$rootProject.ext.serenityWebVersion"
+    testImplementation 'org.seleniumhq.selenium:selenium-java:4.13.0'
 
     //Test compilation
     testImplementation "junit:junit:$rootProject.ext.junit"
@@ -56,6 +62,8 @@ dependencies {
 }
 
 tasks.named('test') {
-    // System configs
-
+    useJUnit()
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+    }
 }
